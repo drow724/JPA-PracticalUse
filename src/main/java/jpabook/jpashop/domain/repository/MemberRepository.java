@@ -1,18 +1,26 @@
 package jpabook.jpashop.domain.repository;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import jpabook.jpashop.domain.Member;
+import lombok.RequiredArgsConstructor;
+
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
 
-	@PersistenceContext
-	private EntityManager em;
+//	@PersistenceContext
+	@Autowired // 스프링 데이타 JPA덕분에 @PersistenceContext 대신 사용 가능
+	private final EntityManager em;
+
+//	public MemberRepository(EntityManager em) {
+//		this.em = em;
+//	}
 	
 	public void save(Member member) {
 		em.persist(member);
@@ -32,4 +40,5 @@ public class MemberRepository {
 				.setParameter("name", name)
 				.getResultList();
 	}
+
 }
