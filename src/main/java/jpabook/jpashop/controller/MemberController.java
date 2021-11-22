@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain.controller;
+package jpabook.jpashop.controller;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.domain.service.MemberService;
+import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
