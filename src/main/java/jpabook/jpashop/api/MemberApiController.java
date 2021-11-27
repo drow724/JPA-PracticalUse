@@ -3,12 +3,15 @@ package jpabook.jpashop.api;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.MemberService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -38,6 +41,33 @@ public class MemberApiController {
 		Long id = memberService.join(member);
 		
 		return new CreateMemberResponse(id);
+		
+	}
+	
+	@PutMapping("/api/v2/members/{id}")
+	public UpdateMemberResponse updateMemberV2(
+			@PathVariable("id")Long id,
+			@RequestBody @Valid UpdateMemberRequest request) { // 별도에 DTO를 만든다.(entity가 변해도 상관없다.) api 스펙이 바뀌지 않음.
+		
+		memberService.update(id, request.getName());
+		Member findMember = memberService.findOne(id);
+		return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+	}
+	
+	@Data
+	static class UpdateMemberRequest {
+		
+		private String name;	
+		
+	}
+	
+	@Data
+	@AllArgsConstructor //entity에는 @getter 정도만 사용하고 DTO에는 막 쓴다
+	static class UpdateMemberResponse {
+		
+		private Long	id;
+		
+		private String name;
 		
 	}
 	
