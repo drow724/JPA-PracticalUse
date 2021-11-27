@@ -1,14 +1,15 @@
 package jpabook.jpashop.api;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.MemberService;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,22 @@ import lombok.RequiredArgsConstructor;
 public class MemberApiController {
 	
 	private final MemberService memberService;
+	
+	@GetMapping("/api/v1/members")
+	public List<Member> membersV1() {
+
+		return memberService.findMembers();
+		
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@GetMapping("/api/v2/members")
+	public Result membersV2() {
+		List<Member> findMembers = memberService.findMembers();
+		List<MemberDTO> collect = findMembers.stream().map(m -> new MemberDTO(m.getName())).collect(Collectors.toList());
+		return new Result(collect.size(),collect);
+		
+	}
 	
 	@PostMapping("/api/v1/members")
 	public CreateMemberResponse saveMemberV1(@RequestBody @Valid Member member) { // @RequestBody는 JSON 타입으로 온 body를 Member에 그대로 매핑한다.
@@ -52,6 +69,24 @@ public class MemberApiController {
 		memberService.update(id, request.getName());
 		Member findMember = memberService.findOne(id);
 		return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+	}
+	
+	@Data
+	@AllArgsConstructor
+	//배열안에 데이타가 아닌 오브젝트 안에 데이타가 나오기 위한 껍데기 클래스
+	static class Result<T> {
+		
+		private int count;
+		private T data;	
+		
+	}
+	
+	@Data
+	@AllArgsConstructor
+	static class MemberDTO {
+		
+		private String name;	
+		
 	}
 	
 	@Data
