@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +28,7 @@ public class Member {
 	@Embedded
 	private Address address;
 	
-	//@JsonIgnore //엔티티에 프렌젠테이션을 위한 기능이 생겨나기 시작했다.
+	@JsonIgnore //엔티티에 프렌젠테이션을 위한 기능이 생겨나기 시작했다.
 	@OneToMany(mappedBy = "member")
 	private List<Order> orders = new ArrayList<>();
 	

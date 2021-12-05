@@ -35,6 +35,8 @@ public class Order {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
+	//private Member member = new ProxyMember(); 지연 로딩이므로 proxy를 생성한다.
+	//private Member member = new ByteBuddyInterceptor(); 정확히는 이것
 	private Member member;
 	
 	//(fetch = FetchType.EAGER)
