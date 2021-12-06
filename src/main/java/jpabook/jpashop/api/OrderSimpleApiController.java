@@ -2,7 +2,6 @@ package jpabook.jpashop.api;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,8 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +27,8 @@ Order -> Delivery
 @RequiredArgsConstructor
 public class OrderSimpleApiController {
 
+	private final OrderSimpleQueryRepository orderSimpleQueryRepository;
+	
 	private final OrderRepository orderRepository;
 	
 	//무한루프에 빠짐 (@JsonIgnore 사용)
@@ -60,6 +63,11 @@ public class OrderSimpleApiController {
 				.map(o -> new SimpleOrderDto(o))
 				.collect(Collectors.toList());
 		return result;
+	}
+	
+	@GetMapping("/api/v4/simple-orders")
+	public List<OrderSimpleQueryDto> ordersV4() {
+		return orderSimpleQueryRepository.findOrderDtos();
 	}
 	
 	@Data
