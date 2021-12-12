@@ -129,5 +129,16 @@ public class OrderRepository {
 				 " join fetch o.delivery d", Order.class)
 				 .getResultList();
 	}
+
+	//DB의 dinstinct 모든 컬럼이 같아야 중복 제거 하고 JPA에 distinct는 자체적으로 같은 아이디 값이면 중복을 제거한다.
+	public List<Order> findAllWithItem() {
+		return em.createQuery(
+				 "select distinct o from Order o" +
+						 " join fetch o.member m" +
+						 " join fetch o.delivery d" +
+						 " join fetch o.orderItems oi" +
+						 " join fetch oi.item i", Order.class)
+						 .getResultList();
+	}
 	
 }
