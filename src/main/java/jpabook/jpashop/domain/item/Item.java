@@ -12,10 +12,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.BatchSize;
+
 import jpabook.jpashop.domain.Category;
 import lombok.Getter;
 import lombok.Setter;
 
+//@BatchSize(size = 1000)
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
