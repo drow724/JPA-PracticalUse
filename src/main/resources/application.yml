@@ -12,7 +12,7 @@ spring:
         # show_sql: true #띄어쓰기 8칸
         format_sql: true #띄어쓰기 8칸
         default_batch_fetch_size: 1000
-    open-in-view: false
+#    open-in-view: false
 logging:
   level: #띄어쓰기 없음
     org.hibernate.SQL: debug #띄어쓰기 2칸
