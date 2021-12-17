@@ -1,6 +1,7 @@
 package jpabook.jpashop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,7 @@ public class OrderService {
 	public Long order(Long memberId, Long itemId, int count) {
 		
 		//엔티티 조회
-		Member member = memberRepository.findOne(memberId);
+		Member member = memberRepository.findById(memberId).get();
 		Item item = itemRepository.findOne(itemId);
 		
 		//배송정보 생성

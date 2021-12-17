@@ -1,6 +1,7 @@
 package jpabook.jpashop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +65,7 @@ public class MemberService {
 	
 	//회원 단건 조회
 	public Member findOne(Long memberId) {
-		return memberRepository.findOne(memberId);
+		return memberRepository.findById(memberId).get();
 	}
 
 	@Transactional
@@ -72,7 +73,7 @@ public class MemberService {
 		//커맨드와 쿼리를 철저히 분리한다.
 		//커맨드는 변경성 메소드
 		//자세한건 cqrs 검색
-		Member member = memberRepository.findOne(id);
+		Member member = memberRepository.findById(id).get();
 		member.setName(name);
 		
 	}
